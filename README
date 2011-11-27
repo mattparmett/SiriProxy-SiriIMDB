@@ -1,0 +1,16 @@
+SiriIMDB is a Siri Proxy plugin that allows you to ask Siri for movie/tv recommendations, get movie/tv show ratings, and retrieve other information about movies/tv shows from IMDB.
+
+SiriIMDB was created by parm289.  You are free to use, modify, and redistribute this gem as long as proper credit is given to the original author.
+
+Usage:
+	The currently implemented commands are (where ____ is the title of a movie or TV show):
+		"Should I see _____?" - Siri will get the movie/show's rating and suggest whether or not it's worth seeing.
+		"How many stars did ____ get?" - Siri will return the movie/show's rating.
+		"Who is [was] in ____?" - Siri will tell you the 3 main actors in the movie/show.
+		"Who is the lead actor in _____?" - Siri will tell you the lead actor in the movie/tv show.
+		"Who directed ____?" - Siri will tell you the director of the movie/show.
+		"When was ____ released?" - Siri will return the release date of the movie.
+
+		
+Installation (untested):
+	To install SiriIMDB, edit your Siri Proxy config.yml file to include the parameters listed in SiriIMDB' config-info.yml file.  Then, run "bundle install" in your Siri Proxy directory to install the SiriIMDB gem.
