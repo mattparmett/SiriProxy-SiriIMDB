@@ -5,4 +5,4 @@
 ##########################
     
     - name: 'SiriIMDB'
-      git: 'git://github.com/parm289/SiriIMDB.git'
+      git: 'git://github.com/parm289/SiriProxy-SiriIMDB.git'

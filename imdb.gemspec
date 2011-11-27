@@ -2,7 +2,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "SiriIMDB"
+  s.name        = "siriproxy-siriimdb"
   s.version     = "0.0.1" 
   s.authors     = ["parm289"]
   s.email       = [""]
@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{A Siri Proxy plugin that retrieves data from IMDB.}
   s.description = %q{A Siri Proxy plugin that allows you to get the rating, actors, director, and release date of a movie.}
 
-  s.rubyforge_project = "SiriIMDB"
+  s.rubyforge_project = "siriproxy-siriimdb"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
