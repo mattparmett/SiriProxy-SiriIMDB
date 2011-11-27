@@ -9,8 +9,6 @@ require 'imdb'
 ######
 
 class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
-  def initialize()
-  end
   
   def getActors(movieName)
 	search = Imdb::Search.new(movieName)
