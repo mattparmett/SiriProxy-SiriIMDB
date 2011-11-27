@@ -3,17 +3,12 @@ require 'siri_objects'
 require 'imdb'
 
 #######
-# This is a "hello world" style plugin. It simply intercepts the phrase "text siri proxy" and responds
-# with a message about the proxy being up and running (along with a couple other core features). This 
-# is good base code for other plugins.
-# 
-# Remember to add other plugins to the "config.yml" file if you create them!
+# SiriIMDB is a Siri Proxy plugin that allows Siri to give you recommendations, ratings, and other useful information about anything on IMDB.
+# Check the readme file for more detailed usage instructions.
+# Created by parm289  - you are free to use, modify, and redistribute as you like, as long as you give the original author credit.
 ######
 
 class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
-  def initialize(config)
-    #if you have custom configuration options, process them here!
-  end
   
   def getActors(movieName)
 	search = Imdb::Search.new(movieName)
@@ -37,18 +32,14 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 
   listen_for /how many stars did (.*) get/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
-    #say "Checking the rating of " + movieTitle + "..." #say something to the user!
-	
 	#Search for the movie and get the rating as a string
 	movieRating = getRating (movieTitle)
-    
 	say "" + movieTitle + " has a rating of " + movieRating + " stars out of 10."
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    request_completed
   end
   
   listen_for /should i see (.*)/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
-	#say "Let me see how good " + movieTitle + " is..." #say something to the user!
 	movieRating = getRating(movieTitle)
 	if (movieRating < 6)
 		say "You probably shouldn't see " + movieTitle + ", it only got " + movieRatingString + " stars."
@@ -57,31 +48,28 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	elsif (movieRating >= 8)
 		say "" + movieTitle + " is a must-see.  It got " + movieRatingString + " stars."
 	end
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    request_completed
   end
 
  listen_for /who was in (.*)/i  do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
-    #say "Finding the actors in " + movieTitle + "..." #say something to the user!
 	movieActors = getActors(movieTitle)
 	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    request_completed
   end
 
  listen_for (/who's in (.*)/i)  do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
-    #say "Finding the actors in " + movieTitle + "..." #say something to the user!
 	movieActors = getActors(movieTitle)
 	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    request_completed
   end  
   
   listen_for /who is in (.*)/i  do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
-    #say "Finding the actors in " + movieTitle + "..." #say something to the user!
 	movieActors = getActors(movieTitle)
 	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+    request_completed
   end
   
   listen_for /Who is the lead actor in (.*)/i do |movieTitle|
