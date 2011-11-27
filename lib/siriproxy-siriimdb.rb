@@ -16,64 +16,83 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
   end
   
   def getActors(movieName)
-	search = Imdb::Search.new(movieTitle)
+	search = Imdb::Search.new(movieName)
 	movie = search.movies[0]
 	return movie.cast_members
   end
-
-  listen_for /how many stars did (.+) get/i do
-	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
-    say "Checking the rating of " + movieTitle + "..." #say something to the user!
-	
-	#Search for the movie and get the rating as a string
+  
+  def getLeadActor(movieName)
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
+	movieActor = movie.cast_members.first
+	return movieActor
+  end
+  
+  def getRating(movieName)
+	search = Imdb::Search.new(movieName)
+	movie = search.movies[0]
 	movieRating = movie.rating().to_s
+	return movieRating
+  end
+
+  listen_for /how many stars did (.*) get/i do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
+    #say "Checking the rating of " + movieTitle + "..." #say something to the user!
+	
+	#Search for the movie and get the rating as a string
+	movieRating = getRating (movieTitle)
     
 	say "" + movieTitle + " has a rating of " + movieRating + " stars out of 10."
     request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
   
-  listen_for /should i see (.+)/i do
-	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
-	say "Getting info about " + movieTitle + "..."
-	search = Imdb::Search.new(movieTitle)
-	movie = search.movies[0]
-	movieRating = movie.rating()
-	movieRatingString = movie.rating().to_s
+  listen_for /should i see (.*)/i do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
+	#say "Let me see how good " + movieTitle + " is..." #say something to the user!
+	movieRating = getRating(movieTitle)
 	if (movieRating < 6)
 		say "You probably shouldn't see " + movieTitle + ", it only got " + movieRatingString + " stars."
-	
 	elsif (movieRating < 8)
 		say "I'd recommend seeing " + movieTitle + ", it got " + movieRatingString + " stars."
-	
 	elsif (movieRating >= 8)
-		say movieTitle + " is a must-see.  It got " + movieRatingString + " stars."
+		say "" + movieTitle + " is a must-see.  It got " + movieRatingString + " stars."
 	end
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
- listen_for ((/who was in (.+)/i) or (/who's in (.+)/i) or (/who is in (.+)/i)) do
-	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
-    say "Finding the actors in " + movieTitle + "..." #say something to the user!
-	
+ listen_for /who was in (.*)/i  do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
+    #say "Finding the actors in " + movieTitle + "..." #say something to the user!
 	movieActors = getActors(movieTitle)
-	
+	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end
+
+ listen_for (/who's in (.*)/i)  do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
+    #say "Finding the actors in " + movieTitle + "..." #say something to the user!
+	movieActors = getActors(movieTitle)
+	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
+    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
+  end  
+  
+  listen_for /who is in (.*)/i  do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
+    #say "Finding the actors in " + movieTitle + "..." #say something to the user!
+	movieActors = getActors(movieTitle)
 	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
     request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
   
-  # listen_for (/who's in (.+)/i) do
-	# movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
-    # say "Finding the actors in " + movieTitle + "..." #say something to the user!
-	
-	# movieActors = getActors(movieTitle)
-	
-	# say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
-    # request_completed #always complete your request! Otherwise the phone will "spin" at the user!
-  # end
+  listen_for /Who is the lead actor in (.*)/i do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
+	movieActor = getLeadActor(movieTitle)
+	say "The main actor in " + movieTitle + " is " + movieActor + "."
+	request_completed
+  end
   
-  listen_for ((/^(Who is the main actor in) (.+)/i) or (/^(Who's the main actor in) (.+)/i)) do
-	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
+  listen_for (/Who's the main actor in (.*)/i) do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
 	movieActor = movie.cast_members.first
@@ -81,8 +100,8 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	request_completed
   end
   
-  listen_for /Who directed (.+)/i do
-	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
+  listen_for /Who directed (.+)/i do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
 	movieDirectors = movie.director()
@@ -90,8 +109,8 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	request_completed
   end
   
-  listen_for /What was the release date of (.+)/i do
-	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
+  listen_for /When was (.*) released/i do |movieTitle|
+	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
 	movieDate = movie.release_date()
