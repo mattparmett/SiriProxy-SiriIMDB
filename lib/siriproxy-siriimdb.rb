@@ -36,23 +36,20 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
   
   listen_for /should i see (.+)/i do
 	movieTitle = $2.split(' ').map {|w| w.capitalize }.join(' ')
-    say "Let me see how good " + movieTitle + " is..." #say something to the user!
-	
+	say "Getting info about " + movieTitle + "..."
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
 	movieRating = movie.rating()
 	movieRatingString = movie.rating().to_s
 	if (movieRating < 6)
 		say "You probably shouldn't see " + movieTitle + ", it only got " + movieRatingString + " stars."
-			
+	
 	elsif (movieRating < 8)
 		say "I'd recommend seeing " + movieTitle + ", it got " + movieRatingString + " stars."
-			
+	
 	elsif (movieRating >= 8)
-		say "" + movieTitle + " is a must-see.  It got " + movieRatingString + " stars.");
+		say movieTitle + " is a must-see.  It got " + movieRatingString + " stars."
 	end
-    
-    request_completed #always complete your request! Otherwise the phone will "spin" at the user!
   end
 
  listen_for ((/who was in (.+)/i) or (/who's in (.+)/i) or (/who is in (.+)/i)) do
