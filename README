@@ -1,3 +1,5 @@
+*Note: I haven't coded in ruby before, so feel free to point out mistakes/corrections, etc, etc.
+
 SiriIMDB is a Siri Proxy plugin that allows you to ask Siri for movie/tv recommendations, get movie/tv show ratings, and retrieve other information about movies/tv shows from IMDB.
 
 SiriIMDB was created by parm289.  You are free to use, modify, and redistribute this gem as long as proper credit is given to the original author.
