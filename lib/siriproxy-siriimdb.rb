@@ -43,6 +43,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
   listen_for /should i see (.*)/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieRating = getRating(movieTitle)
+	movieRatingString = movieRating.to_s
 	if (movieRating < 6)
 		say "You probably shouldn't see " + movieTitle + ", it only got " + movieRatingString + " stars."
 	elsif (movieRating < 8)
