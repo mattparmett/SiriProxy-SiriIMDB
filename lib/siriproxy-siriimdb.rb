@@ -28,7 +28,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
   def getRating(movieName)
 	search = Imdb::Search.new(movieName)
 	movie = search.movies[0]
-	movieRating = movie.rating().to_s
+	movieRating = movie.rating()
 	return movieRating
   end
 
