@@ -19,7 +19,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
   end
   
   def getLeadActor(movieName)
-	search = Imdb::Search.new(movieTitle)
+	search = Imdb::Search.new(movieName)
 	movie = search.movies[0]
 	movieActor = movie.cast_members.first
 	return movieActor
