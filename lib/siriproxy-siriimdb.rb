@@ -19,7 +19,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
   end
   
   def getLeadActor(movieName)
-	search = Imdb::Search.new(movieTitle)
+	search = Imdb::Search.new(movieName)
 	movie = search.movies[0]
 	movieActor = movie.cast_members.first
 	return movieActor
@@ -36,7 +36,8 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	#Search for the movie and get the rating as a string
 	movieRating = getRating (movieTitle)
-	say "" + movieTitle + " has a rating of " + movieRating + " stars out of 10."
+	movieRatingString = movieRating.to_s
+	say "" + movieTitle + " has a rating of " + movieRatingString + " stars out of 10."
     request_completed
   end
   
