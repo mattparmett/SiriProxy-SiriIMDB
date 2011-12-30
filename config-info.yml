@@ -6,3 +6,5 @@
     
     - name: 'SiriIMDB'
       git: 'git://github.com/parm289/SiriProxy-SiriIMDB.git'
+     - name: 'SiriIMDB'
+      git: 'git://github.com/parm289/SiriProxy-SiriIMDB.git'
