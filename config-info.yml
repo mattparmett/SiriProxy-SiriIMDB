@@ -3,6 +3,6 @@
 ##########################
 #NOTICE: Modifying these options in this file has no effect. You must put them in SiriProxy's config.yml!
 ##########################
-    
+
     - name: 'SiriIMDB'
-      git: 'git://github.com/parm289/SiriProxy-SiriIMDB.git'
+      git: 'git://github.com/mattparmett/SiriProxy-SiriIMDB.git'
